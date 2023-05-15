@@ -10,52 +10,38 @@ df = pd.read_csv("players_21.csv")
 print("Number of null entries per column: \n")
 print(df.isnull().sum())
 
-# Useful insights gained from df.isnull().sum():
-
-# # The columns gk_handling, gk_positioning etc seem
-# # to be a duplicate column for the columns named 
-# # goalkeeping_handling, goalkeeping_positiong. 
-# # The shorthand columns have 16,861 NaN's in each column
-# # Oppositely, the goalkeeping_ columns have no NaN's.
-# # Additionally the column defending_marking should be removed
-# # as it has n-1 NaN values.
-# # Other high NaN count columns include:
-# # player_tags: 17536
-# # loaned_from: 18186
-# # nation_position: 17817
-# # nation_jersey_number: 17817
-# # gk_diving/handling/kicking/reflexes/speed/positioning: 16861
-# # player_traits: 10629
-# # defending_marking: 18944
-
-# df = df.dropna() will actually drop the entire
-# dataframe as the column defending_marking is entirely
-# null except for 1 entry, so it is not an effective means
-# of NaN handling in this case.
-
-# This means we need to be thoughtful about how we drop
-# NaN's in each column. Additionally, simply imputing
-# mean in-place should be done carefully because
-# certain players may not have certain entries as those
-# players do not play certain positions (i.e. goalkeeping?)
-
-# The following code (doesnt work) should impute in-place the mean
-# This code can likely be refactored to go through only columns
-# which have entries that are shared by all positions. This is to
-# avoid imputing values for traits which certain players don't have, for example
-# do non goal-keepers need any values for goalkeeping traits?
-# for i in df.columns[df.isnull().any(axis=0)]:
-#     df[i].fillna(df[i].mean(),inplace=True)
-
 # Drop rows/columns where all elements are missing
+# Drop gk_diving, gk_handling, gk_kicking, gk_reflexes, gk_positioning
 df = df.dropna(how='all')
-df = df.drop(columns='defending_marking') # drop defending_marking because it is 99.9% NaN
+df = df.drop(columns=['defending_marking', 'gk_diving', 'gk_handling', 'gk_kicking', 'gk_reflexes', 'gk_positioning'], axis=1) 
 
+# Insert and copy row for gk_speed before dropping it
+df.insert(loc=74, column='goalkeeping_speed', value=['' for i in range(df.shape[0])])
+df['goalkeeping_speed'] = df['gk_speed'].copy()
+df['goalkeeping_speed'] = df['goalkeeping_speed'].fillna(0)
+df = df.drop(columns=['gk_speed'], axis=1) 
 
-
-
-
+# Drop entries that have an empty/NaN team position or team jersey number.
+for index, row in df.iterrows():
+    if row['team_position'] == np.nan or row['team_position'] == '':
+        df.drop(df.index)
+        print("a")
+        continue
+    if row['team_jersey_number'] == np.nan or row['team_jersey_number'] == '':
+        df.drop(df.index)
+        print("a")
+        continue
 
 print("After NaN handling: \n")
 print(df.isnull().sum())
+
+# TODO IF STATEMENTES ON LINE 26, 30 ARE NOT EXECUTING
+
+# x = 0
+# for index, row in df.iterrows():
+#     if x > 50:
+#         break
+#     print(row['goalkeeping_speed'])
+#     x = x + 1
+
 
