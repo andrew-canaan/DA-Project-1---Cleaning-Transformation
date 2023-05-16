@@ -27,10 +27,21 @@ for index in df.index:
 
 for player in playersToPop:
     df.drop(index=player, inplace=True)
-    print(f"Removing bad element with index {player}")
 
-print("After NaN handling: \n")
-print(df.isnull().sum())
+# Guiding Question 1: Do the height and weight columns have the appropriate data types?
+# Let's begin by examining the data in the columns.
+# This can be done by visually inspecting the csv file, or by pulling out the columns
+# with python.
+height_entry = df.iloc[1]['height_cm']
+weight_entry = df.iloc[1]['weight_kg']
+print(f'Height value type: {type(height_entry)}')
+print(f'Weight value type: {type(weight_entry)}')
+
+# Guiding Question 2: Can you separate the joined column into year, month, and day columns?
+
+
+# print("After NaN handling: \n")
+# print(df.isnull().sum())
 
 # writer = pd.ExcelWriter("results.xlsx")
 # df.to_excel(writer, "Output")
@@ -42,5 +53,3 @@ print(df.isnull().sum())
 #         break
 #     print(row['goalkeeping_speed'])
 #     x = x + 1
-
-
