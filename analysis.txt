@@ -4,7 +4,9 @@ Guiding Questions:
 a. Do the height and weight columns have the appropriate data types?
     - Yes, the columns have the appropriate data types as they are int64's. Scalar values such
     as heigh, or weight should be stored as ints/floats depending.
+
 b. Can you separate the joined column into year, month, and day columns?
+    -
 c. Can you clean and transform the value, wage, and release clause columns of the integers?
 d. How can you remove the newline characters from the Hits column?
 e. Should you separate the Teams & Contract column into separate team and contract columns?
