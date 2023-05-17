@@ -7,9 +7,13 @@ a. Do the height and weight columns have the appropriate data types?
 
 b. Can you separate the joined column into year, month, and day columns?
     -
+
 c. Can you clean and transform the value, wage, and release clause columns of the integers?
+
 d. How can you remove the newline characters from the Hits column?
+
 e. Should you separate the Teams & Contract column into separate team and contract columns?
+
 
 Observations: 
 - The columns gk_handling, gk_positioning etc seem to be a duplicate column for the columns named goalkeeping_handling, goalkeeping_positiong. 
