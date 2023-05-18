@@ -1,18 +1,28 @@
 Dataset: FIFA 21 Players Dataset (https://www.kaggle.com/datasets/stefanoleone992/fifa-21-complete-player-dataset)
 
-Guiding Questions:
-a. Do the height and weight columns have the appropriate data types?
-    - Yes, the columns have the appropriate data types as they are int64's. Scalar values such
-    as heigh, or weight should be stored as ints/floats depending.
 
-b. Can you separate the joined column into year, month, and day columns?
-    -
+Guiding Question 1: Do the height and weight columns have the appropriate data types?
+Let's begin by examining the data in the columns.
+This can be done by visually inspecting the cesv file, or by pulling out the columns
+with python. I did this by pulling the cells in row 2 (index 1) and calling type() on
+them.
 
-c. Can you clean and transform the value, wage, and release clause columns of the integers?
+Guiding Question 2: Can you separate the joined (dd/mm/yyyy) column into year, month, and day columns?
+I chose to add three columns after the 'joined' column for year, month, and day. Then, I pulled out the
+cell in "joined", parsed it via delimiter, and then assigned the new cells we added with the corresponding
+date value.
 
-d. How can you remove the newline characters from the Hits column?
+Guiding Question 3: Can you clean and transform the value, wage, and release clause columns of the integers?
+Inspection shows that wage and value are all non-null, but there are a few null entries in release_clause_eur.
+After doing research into the sport, not all playes have a release clause, so removing players without one
+may be unncecessary. Therefore, the wage, value, and release clause columns are clean as far as data integrity goes.
 
-e. Should you separate the Teams & Contract column into separate team and contract columns?
+Guiding Question 4: How should one address the empty entries in the "tags" column?
+I chose to add a #None entry for any empty entries in the tags column.
+
+Guiding Question 5: How should one treat the 1990 null entries in pace, shooting, passing, dribbling, defending, and physic 
+for the goal-keepers?
+Since goal-keepers do not actually have values for these traits, I assigned zero to them. 
 
 
 Observations: 
@@ -42,3 +52,5 @@ goalkeeping columns, so instead what should be done is:
 - Any players with blank positions should be dropped
 
 - df.isnull() does not count empty strings as null
+
+- Refactored code to do all necessary searching in 1 for loop, rather than 2 or 3 separate n length for loops.
